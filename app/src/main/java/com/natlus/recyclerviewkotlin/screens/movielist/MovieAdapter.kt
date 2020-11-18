@@ -6,12 +6,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.natlus.recyclerviewkotlin.databinding.ItemMovieBinding
 import com.natlus.recyclerviewkotlin.models.Movie
 
-class MovieAdapter(private val movieList: List<Movie>) :
+class MovieAdapter(movieList: List<Movie>? = arrayListOf()) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+
+    var movieList = movieList
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class MovieViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: Movie) {
+        fun bind(movie: Movie?) {
             binding.movie = movie
             binding.executePendingBindings()
         }
@@ -24,10 +30,10 @@ class MovieAdapter(private val movieList: List<Movie>) :
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movieList[position])
+        holder.bind(movieList?.get(position))
     }
 
     override fun getItemCount(): Int {
-        return movieList.size
+        return movieList?.size ?: 0
     }
 }
